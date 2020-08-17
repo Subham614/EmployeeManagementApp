@@ -11,6 +11,7 @@ Designation=require('./model/Designation');
 Manager=require('./model/Manager');
 
 var app = express();
+app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 
 //connect to mongo
@@ -34,13 +35,13 @@ app.post('/image-upload', function(req, res) {
   
 //add employess
 app.post('/api/employees', (req, res) => {
-	var employee = req.body;
-	Employee.addEmp(employee, (err, employees) => {
-		if(err){
-			throw err;
-		}
-		res.json(employees);
-	});
+    var employee = req.body;
+    Employee.addEmp(employee, (err, employees) => {
+        if(err){
+            throw err;
+        }
+        res.json(employees);
+    });
 });
 
 //get employees
@@ -55,13 +56,13 @@ app.get('/api/employees',function(req,res){
 
 //add designations
 app.post('/api/designations', (req, res) => {
-	var designation = req.body;
-	Designation.addDesignation(designation, (err, designations) => {
-		if(err){
-			throw err;
-		}
-		res.json(designations);
-	});
+    var designation = req.body;
+    Designation.addDesignation(designation, (err, designations) => {
+        if(err){
+            throw err;
+        }
+        res.json(designations);
+    });
 });
 
 // display all designations
@@ -76,13 +77,13 @@ app.get('/api/designations',function(req,res){
 
 //add hardwares
 app.post('/api/hardwares', (req, res) => {
-	var hardware = req.body;
-	Hardware.addHardware(hardware, (err, hardwares) => {
-		if(err){
-			throw err;
-		}
-		res.json(hardwares);
-	});
+    var hardware = req.body;
+    Hardware.addHardware(hardware, (err, hardwares) => {
+        if(err){
+            throw err;
+        }
+        res.json(hardwares);
+    });
 });
 
 //display all hardwares
@@ -97,13 +98,13 @@ app.get('/api/hardwares',function(req,res){
 
 //add managers
 app.post('/api/managers', (req, res) => {
-	var manager = req.body;
-	Manager.addManager(manager, (err, managers) => {
-		if(err){
-			throw err;
-		}
-		res.json(managers);
-	});
+    var manager = req.body;
+    Manager.addManager(manager, (err, managers) => {
+        if(err){
+            throw err;
+        }
+        res.json(managers);
+    });
 });
 
 //display all managers
@@ -119,6 +120,10 @@ app.get('/api/managers',function(req,res){
 app.get('/',function(req,res){
     res.send("hello");
 })
+
+app.use('/api',require('./routes/route-login'));
+app.use('/',require('./routes/route-employee'));
+
 app.listen(3000, function(){
     console.log("Express server is running on port 3000!");
 });
