@@ -5,6 +5,8 @@ const connectDB=require('./DB/Connection');
 const upload=require('./services/file-upload');
 const singleUpload=upload.single('image');
 
+const PORT = process.env.PORT || 3000;
+
 Employee=require('./model/Employee');
 Hardware=require('./model/Hardware');
 Designation=require('./model/Designation');
@@ -19,7 +21,7 @@ app.use(bodyParser.json());
 
 // mongoose.connect("mongodb://localhost/EmployeeManagement");
 // var db=mongoose.connection;
-connectDB();
+/*connectDB();*/
 
 // upload the image
 
@@ -124,6 +126,13 @@ app.get('/',function(req,res){
 app.use('/api',require('./routes/route-login'));
 app.use('/',require('./routes/route-employee'));
 
-app.listen(3000, function(){
-    console.log("Express server is running on port 3000!");
-});
+// app.listen(3000, function(){
+//     // connectDB();
+//     console.log("Express server is running on port 3000!");
+// });
+
+mongoose.connect("mongodb+srv://adminUser:adminUser@cluster0.eeo7b.mongodb.net/<dbname>?retryWrites=true&w=majority",{useNewUrlParser:true,useUnifiedTopology:true})
+.then(()=>{
+    console.log('db connected...');
+    app.listen(PORT,()=>console.log(`Listening on port ${PORT}`));
+})
