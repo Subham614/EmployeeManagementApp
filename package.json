@@ -2,7 +2,7 @@
   "name": "employement_management",
   "version": "1.0.0",
   "description": "Simple Mean App",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "start":"node server.js"
   },
