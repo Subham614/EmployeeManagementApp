@@ -3,8 +3,8 @@ const Employee = require('../model/Employee');
 async function loginUser(req,res,next){
 
 	try{
-			
-			if(!req.body.empid || !req.body.password || !req.body.UUID){
+			// console.log('body',req.body);
+			if(!req.body.empid || !req.body.password || !req.body.device_id){
 				return res.json({
 					'error':true,
 					'message':' details not provided '
@@ -12,9 +12,10 @@ async function loginUser(req,res,next){
 			}
 			const employee = await Employee.findOne({empid:req.body.empid});
 			if(employee){
+				// console.log(employee);
 				if(employee.isBlocked != true){
 					if(employee.password === req.body.password){
-						if(employee.UUID == req.body.UUID){
+						if(employee.device_id == req.body.device_id){
 							//generate the JWT token
 							let token = jwt.sign({empid:employee.empid}, 'secret_string', { expiresIn: '1800s' });
 							return res.json({
@@ -28,7 +29,7 @@ async function loginUser(req,res,next){
 							let uuidList = await Employee.find({});
 							console.log(uuidList);
 							uuidList.forEach(user=>{
-								if(user.UUID === req.body.UUID)
+								if(user.device_id === req.body.device_id)
 								{
 									flag =true;
 								}
