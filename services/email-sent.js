@@ -11,7 +11,7 @@ let transporter = nodemailer.createTransport({
 });
 const sendMail=(email,empid,password,callback)=>{
     let mailOptions = {
-        from: 'subhamp614@gmail.com', // email sender
+        from: 'abc@gmail.com', // email sender
         to: email, // email receiver
         subject:'User registration Done!!',
         text:'Hello User,\n Your verified Employee id is :' + empid + ' \n Your Onetime Passowrd : ' + password,
