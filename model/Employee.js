@@ -5,7 +5,7 @@ const employeeSchema=mongoose.Schema({
             type:String,
             required:true
         },
-        empid:{
+        empId:{
             type:String,
             required:true
         },
@@ -50,13 +50,14 @@ const employeeSchema=mongoose.Schema({
         device_id:{
             type:String,
             required:true,
-            unique:true
         },
         isnewUser:{
-            type:Boolean
+            type:Boolean,
+            default:true
         },
         isBlocked:{
             type:Boolean,
+            default:false
         },
     });
 var Employee=module.exports=mongoose.model('Employee',employeeSchema);

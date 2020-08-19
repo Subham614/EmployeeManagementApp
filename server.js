@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const upload=require('./services/file-upload');
 const singleUpload=upload.single('image');
 const sendMail=require('./services/email-sent');
+const randomString = require('./services/random');
 
 const PORT = process.env.PORT || 3000;
 
@@ -11,6 +12,8 @@ Employee=require('./model/Employee');
 Hardware=require('./model/Hardware');
 Designation=require('./model/Designation');
 Manager=require('./model/Manager');
+
+let Counter = require('./model/Counter');
 
 const app = express();
 app.use(bodyParser.urlencoded({extended:true}));
@@ -35,11 +38,26 @@ app.post('/image-upload', function(req, res) {
   });
   
 //add employess and sent mail
-app.post('/api/employees', (req, res) => {
-    var employee = req.body;
-    Employee.addEmp(employee, (err, employees) => {
+app.post('/api/employees', async (req, res) => {
+    let employee = req.body;
+    let currentCounter = await Counter.findOneAndUpdate({value:'product_id'},{$inc:{sequence:1}},{new:true});
+    if(currentCounter){
+
+        let empId = `zreyas_${currentCounter.sequence}`;
+        let password = randomString.makeid();
+        let device_id = `device_${currentCounter.sequence}`;
+
+        employee.empId = empId;
+        employee.password = password;
+        employee.device_id = device_id;
+
+
+        Employee.addEmp(employee, (err, employees) => {
         if(err){
-            throw err;
+            res.json({
+                'error':true,
+                'message':'user registration not successfull'
+            });
         }else{
             sendMail(employees.email,employees.empid,employees.password, function(err,data){
                 if(err)
@@ -52,6 +70,9 @@ app.post('/api/employees', (req, res) => {
         }
         res.json(employees);
     });
+
+    }
+
 });
 
 //get employees
@@ -133,8 +154,12 @@ app.get('/',function(req,res){
 
 app.use('/api',require('./routes/route-login'));
 app.use('/',require('./routes/route-employee'));
+app.use('/',require('./routes/route-counter'));
+app.use('/attendence',require('./routes/route-attendence'));
+app.use('/location',require('./routes/route-location'));
 
-mongoose.connect("mongodb+srv://adminUser:adminUser@cluster0.eeo7b.mongodb.net/<dbname>?retryWrites=true&w=majority",{useNewUrlParser:true,useUnifiedTopology:true})
+
+mongoose.connect("mongodb+srv://adminUser:adminUser@cluster0.eeo7b.mongodb.net/employeeManage?retryWrites=true&w=majority",{useNewUrlParser:true,useUnifiedTopology:true})
 .then(()=>{
     console.log('db connected!!');
     app.listen(PORT,()=>console.log(`Express server is Listening on port: ${PORT}`));

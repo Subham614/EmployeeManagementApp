@@ -4,20 +4,21 @@ async function loginUser(req,res,next){
 
 	try{
 			// console.log('body',req.body);
-			if(!req.body.empid || !req.body.password || !req.body.device_id){
+			if(!req.body.empId || !req.body.password || !req.body.device_id){
 				return res.json({
 					'error':true,
 					'message':' details not provided '
 				})
 			}
-			const employee = await Employee.findOne({empid:req.body.empid});
+			const employee = await Employee.findOne({empId:req.body.empId});
 			if(employee){
 				// console.log(employee);
 				if(employee.isBlocked != true){
 					if(employee.password === req.body.password){
 						if(employee.device_id == req.body.device_id){
 							//generate the JWT token
-							let token = jwt.sign({empid:employee.empid}, 'secret_string', { expiresIn: '1800s' });
+							let token = jwt.sign({empId:employee.empId}, 'secret_string', { expiresIn: '1800s' });
+							token = `Bearer ${token}`
 							return res.json({
 								'error':false,
 								token:token,
@@ -37,7 +38,7 @@ async function loginUser(req,res,next){
 
 							if(flag == true){
 								//block the employee
-								let blockedUser = await Employee.findOneAndUpdate({empid:req.body.empid},{isBlocked:true},{new:true});
+								let blockedUser = await Employee.findOneAndUpdate({empId:req.body.empId},{isBlocked:true},{new:true});
 								res.json({
 									'error':true,
 									'message':'employee blocked contact manager'
@@ -81,7 +82,7 @@ async function loginUser(req,res,next){
 async function profile(req,res,next){
 
 	try{
-		const record = await Employee.findOne({empid:req.params.empid});
+		const record = await Employee.findOne({empId:req.params.empId});
 		if(record){
 			res.json({
 				'error':false,

@@ -5,13 +5,13 @@ async function updatePassword(req,res,next){
 	try{
 
 
-		if(!req.body.empid || !req.body.password){
+		if(!req.body.empId || !req.body.password){
 			return res.json({
 				'error':true,
 				'message':'please provide necessary details'
 			})
 		}
-		let user = await Employee.findOneAndUpdate({empid:req.body.empid},{password:req.body.password,isnewUser:false},{new:true});
+		let user = await Employee.findOneAndUpdate({empId:req.body.empId},{password:req.body.password,isnewUser:false},{new:true});
 		if(user){
 			return res.json({
 					'error':false,
