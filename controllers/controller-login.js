@@ -82,7 +82,8 @@ async function loginUser(req,res,next){
 async function profile(req,res,next){
 
 	try{
-		const record = await Employee.findOne({empId:req.params.empId});
+		const record = await Employee.findOne({empId:req.params.id});
+		// console.log(record);
 		if(record){
 			res.json({
 				'error':false,
