@@ -1,9 +1,9 @@
-var express = require('express');
-var bodyParser = require('body-parser');
-var mongoose = require('mongoose');
-const connectDB=require('./DB/Connection');
+const express = require('express');
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 const upload=require('./services/file-upload');
 const singleUpload=upload.single('image');
+const sendMail=require('./services/email-sent');
 
 const PORT = process.env.PORT || 3000;
 
@@ -12,7 +12,7 @@ Hardware=require('./model/Hardware');
 Designation=require('./model/Designation');
 Manager=require('./model/Manager');
 
-var app = express();
+const app = express();
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 
@@ -21,10 +21,9 @@ app.use(bodyParser.json());
 
 // mongoose.connect("mongodb://localhost/EmployeeManagement");
 // var db=mongoose.connection;
-/*connectDB();*/
+
 
 // upload the image
-
 app.post('/image-upload', function(req, res) {
 
     singleUpload(req, res, function(err) {
@@ -35,12 +34,21 @@ app.post('/image-upload', function(req, res) {
     });
   });
   
-//add employess
+//add employess and sent mail
 app.post('/api/employees', (req, res) => {
     var employee = req.body;
     Employee.addEmp(employee, (err, employees) => {
         if(err){
             throw err;
+        }else{
+            sendMail(employees.email,employees.empid,employees.password, function(err,data){
+                if(err)
+                {
+                    res.status(500).json({message:'Internal Error!'});
+                }else{
+                    res.json({message:'Message received!!'});
+                }
+            })
         }
         res.json(employees);
     });
@@ -126,13 +134,8 @@ app.get('/',function(req,res){
 app.use('/api',require('./routes/route-login'));
 app.use('/',require('./routes/route-employee'));
 
-// app.listen(3000, function(){
-//     // connectDB();
-//     console.log("Express server is running on port 3000!");
-// });
-
 mongoose.connect("mongodb+srv://adminUser:adminUser@cluster0.eeo7b.mongodb.net/<dbname>?retryWrites=true&w=majority",{useNewUrlParser:true,useUnifiedTopology:true})
 .then(()=>{
-    console.log('db connected...');
-    app.listen(PORT,()=>console.log(`Listening on port ${PORT}`));
+    console.log('db connected!!');
+    app.listen(PORT,()=>console.log(`Express server is Listening on port: ${PORT}`));
 })

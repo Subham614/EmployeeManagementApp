@@ -9,6 +9,10 @@ const employeeSchema=mongoose.Schema({
             type:String,
             required:true
         },
+        email:{
+            type:String,
+            required:true
+        },
         dob:{
             type:Date,
             required:true
@@ -27,29 +31,26 @@ const employeeSchema=mongoose.Schema({
         },
         joining_date:{
             type:Date,
-            required:true
+            required:true,
+            default:Date.now
         },
-        designation_id: [
-            {
-              type: mongoose.Schema.Types.ObjectId,
-              ref: "Designation"
-            }
-          ],
-        manager_id: [
-            {
-              type: mongoose.Schema.Types.ObjectId,
-              ref: "Manager"
-            }
-          ],
-        hardware_id: [
-            {
-              type: mongoose.Schema.Types.ObjectId,
-              ref: "Hardware"
-            }
-          ],
-        UUID:{
+        designation:{
+          type:String,
+          required:true
+        },
+        
+      manager:{
+          type:String,
+          required:true
+        },
+        hardware:{
+          type:String,
+          required:true
+        },
+        device_id:{
             type:String,
-            required:true
+            required:true,
+            unique:true
         },
         isnewUser:{
             type:Boolean
