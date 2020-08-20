@@ -92,7 +92,7 @@ const moment = require('moment');
 			});
 
 
-	 			newAttendence.inTime = newAttendence.inTime.setHours(0,0,0,0);
+	 			newAttendence.inTime = newAttendence.inTime.split(' ').slice(0,4).join(' ');
 				let today = moment(newAttendence.inTime).format('LT');
 				let todayTime = today.split(':');
 				let currentTime = todayTime[0]
