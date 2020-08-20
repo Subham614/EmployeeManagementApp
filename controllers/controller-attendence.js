@@ -91,13 +91,17 @@ const moment = require('moment');
 				earlyOut:false
 			});
 
-		 	let today = newAttendence.inTime.toString();
-			let todayTime = (today.split(' '));
-			let currentTime = (todayTime[4]).split(':');
-			
+		 // 	let today = newAttendence.inTime.toString();
+			// let todayTime = (today.split(' '));
+			// let currentTime = (todayTime[4]).split(':');
+
+				let today = moment(newAttendence.inTime).format('LT');
+				let todayTime = today.split(':');
+				let currentTime = todayTime[0]
 			// time = 10 am
-			console.log(currentTime[0]);
-			if(currentTime[0] >= 10){
+
+			console.log(currentTime);
+			if(currentTime >= 10){
 				newAttendence.lateIn = true;
 				// check if late entry reason is provided or not
 				if(newAttendence.lateInReason==''){
