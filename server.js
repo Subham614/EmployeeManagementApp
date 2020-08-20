@@ -40,6 +40,7 @@ app.post('/image-upload', function(req, res) {
 //add employess and sent mail
 app.post('/api/employees', async (req, res) => {
     let employee = req.body;
+
     let currentCounter = await Counter.findOneAndUpdate({value:'product_id'},{$inc:{sequence:1}},{new:true});
     if(currentCounter){
 
@@ -54,21 +55,25 @@ app.post('/api/employees', async (req, res) => {
 
         Employee.addEmp(employee, (err, employees) => {
         if(err){
-            res.json({
+            return res.json({
                 'error':true,
                 'message':'user registration not successfull'
             });
-        }else{
-            sendMail(employees.email,employees.empid,employees.password, function(err,data){
+        }else if(employees){
+            sendMail(employees.email,employees.empId,employees.password, function(err,data){
                 if(err)
                 {
-                    res.status(500).json({message:'Internal Error!'});
+                    return res.json({'message':'Internal Error!'});
                 }else{
-                    res.json({message:'Message received!!'});
+                    return res.json({
+                        'error':false,
+                        'message':'email sent!!',
+                        data:employees
+                    });
                 }
             })
         }
-        res.json(employees);
+        // res.json(employees);
     });
 
     }
@@ -79,7 +84,11 @@ app.post('/api/employees', async (req, res) => {
 app.get('/api/employees',function(req,res){
     Employee.getEmp(function(err,employees){
         if(err){
-            throw err;
+            // throw err;
+            res.json({
+                'error':true,
+                'message':'details not fetched'
+            })
         }
         res.json(employees);
     });

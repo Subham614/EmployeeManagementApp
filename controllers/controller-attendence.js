@@ -290,7 +290,10 @@ async function checkOut(req,res,next){
 	}
 	catch(err){
 		console.log(err);
-		res.send(err);
+		res.json({
+			'error':true,
+			'message':'check out not done'
+		});
 	}
 
 }

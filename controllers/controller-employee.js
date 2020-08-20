@@ -27,6 +27,33 @@ async function updatePassword(req,res,next){
 }
 
 
+async function getEmployee(req,res,next){
+	try{
+		let output = await Employee({empId:req.params.id});
+		if(output){
+			res.json({
+				'error':false,
+				'data':data
+			})
+		}else{
+			res.json({
+			'error':true,
+			'message':'details not fetched'
+			})
+
+		}
+
+		
+
+	}catch(err){
+		console.log(err);
+		res.json({
+			'error':true,
+			'message':'details not fetched'
+		})
+	}
+}
+
 module.exports = {
-	updatePassword
+	updatePassword,getEmployee
 }
