@@ -92,7 +92,7 @@ const moment = require('moment');
 			});
 
 
-	 			newAttendence.inTime = newAttendence.inTime.toString().split(' ').slice(0,4).join(' ');
+	 			// newAttendence.inTime = newAttendence.inTime.toString().split(' ').slice(0,4).join(' ');
 				let today = moment(newAttendence.inTime).format('LT');
 				let todayTime = today.split(':');
 				let currentTime = todayTime[0]
@@ -103,7 +103,7 @@ const moment = require('moment');
 
 			return res.json({
 				'error':true,
-				'inTime':timeIn,
+				'inTime':newAttendence.inTime,
 				'today':today,
 				'current time':currentTime
 			})
