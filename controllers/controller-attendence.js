@@ -106,7 +106,7 @@ const moment = require('moment');
 			// })
 
 
-			if(currentTime >= 9){
+			if(currentTime > 9){
 				newAttendence.lateIn = true;
 				// check if late entry reason is provided or not
 				if(newAttendence.lateInReason==''){
