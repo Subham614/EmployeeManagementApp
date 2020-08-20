@@ -99,11 +99,11 @@ const moment = require('moment');
 
 			console.log(currentTime);
 
-			return res.json({
-				'error':true,
-				'today':today,
-				'current time':currentTime
-			})
+			// return res.json({
+			// 	'error':true,
+			// 	'today':today,
+			// 	'current time':currentTime
+			// })
 
 
 			if(currentTime > 9){
