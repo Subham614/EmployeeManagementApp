@@ -92,6 +92,7 @@ const moment = require('moment');
 			});
 
 
+	 			newAttendence.inTime = moment(newAttendence.inTime).format('LLLL');
 				let today = moment(newAttendence.inTime).format('LT');
 				let todayTime = today.split(':');
 				let currentTime = todayTime[0]
