@@ -98,15 +98,14 @@ const moment = require('moment');
 				let currentTime = todayTime[0]
 			// time = 10 am
 
-			console.log(currentTime);
-			let timeIn = newAttendence.inTime.toString();
+		
 
-			return res.json({
-				'error':true,
-				'inTime':newAttendence.inTime,
-				'today':today,
-				'current time':currentTime
-			})
+			// return res.json({
+			// 	'error':true,
+			// 	'inTime':newAttendence.inTime,
+			// 	'today':today,
+			// 	'current time':currentTime
+			// })
 
 
 			if(currentTime > 9){
@@ -259,10 +258,16 @@ async function checkOut(req,res,next){
 				earlyOutReason:req.body.earlyOutReason,
 			}
 
-			let today = update.outTime.toString();
-			let todayTime = (today.split(' '));
-			let currentTime = (todayTime[4]).split(':');
+			// let today = update.outTime.toString();
+			// let todayTime = (today.split(' '));
+			// let currentTime = (todayTime[4]).split(':');
 			
+
+				update.outTime = req.body.outTime.split(' ').slice(0,5).join(' ');
+				let today = moment(update.outTime).format('LT');
+				let todayTime = today.split(':');
+				let currentTime = todayTime[0]
+
 			// time = 6pm
 			if(currentTime[0] <= 17){
 				update.earlyOut=true;
