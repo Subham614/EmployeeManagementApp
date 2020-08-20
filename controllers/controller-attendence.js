@@ -91,11 +91,8 @@ const moment = require('moment');
 				earlyOut:false
 			});
 
-		 // 	let today = newAttendence.inTime.toString();
-			// let todayTime = (today.split(' '));
-			// let currentTime = (todayTime[4]).split(':');
 
-				let today = moment(newAttendence.inTime).format('LT');
+				let today = moment(req.body.inTime).format('LT');
 				let todayTime = today.split(':');
 				let currentTime = todayTime[0]
 			// time = 10 am
