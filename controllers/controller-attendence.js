@@ -98,6 +98,14 @@ const moment = require('moment');
 			// time = 10 am
 
 			console.log(currentTime);
+
+			return res.json({
+				'error':true,
+				'today':today,
+				'current time':currentTime
+			})
+
+
 			if(currentTime > 9){
 				newAttendence.lateIn = true;
 				// check if late entry reason is provided or not
