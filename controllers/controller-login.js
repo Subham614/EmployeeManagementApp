@@ -17,7 +17,7 @@ async function loginUser(req,res,next){
 					if(employee.password === req.body.password){
 						if(employee.device_id == req.body.device_id){
 							//generate the JWT token
-							let token = jwt.sign({empId:employee.empId}, 'secret_string', { expiresIn: '1800s' });
+							let token = jwt.sign({empId:employee.empId}, 'secret_string', { expiresIn: '10h' });
 							token = `Bearer ${token}`
 							return res.json({
 								'error':false,
