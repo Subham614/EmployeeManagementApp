@@ -96,7 +96,8 @@ const moment = require('moment');
 			let currentTime = (todayTime[4]).split(':');
 			
 			// time = 10 am
-			if(currentTime[0] > 10){
+			console.log(currentTime[0]);
+			if(currentTime[0] >= 10){
 				newAttendence.lateIn = true;
 				// check if late entry reason is provided or not
 				if(newAttendence.lateInReason==''){
