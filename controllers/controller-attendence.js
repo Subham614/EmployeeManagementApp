@@ -98,12 +98,14 @@ const moment = require('moment');
 			// time = 10 am
 
 			console.log(currentTime);
+			let timeIn = newAttendence.inTime.toString();
 
-			// return res.json({
-			// 	'error':true,
-			// 	'today':today,
-			// 	'current time':currentTime
-			// })
+			return res.json({
+				'error':true,
+				'inTime':timeIn,
+				'today':today,
+				'current time':currentTime
+			})
 
 
 			if(currentTime > 9){
