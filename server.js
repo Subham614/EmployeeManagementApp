@@ -46,11 +46,11 @@ app.post('/api/employees', async (req, res) => {
 
         let empId = `zreyas_${currentCounter.sequence}`;
         let password = randomString.makeid();
-        let device_id = `device_${currentCounter.sequence}`;
+        //let device_id = `device_${currentCounter.sequence}`;
 
         employee.empId = empId;
         employee.password = password;
-        employee.device_id = device_id;
+        //employee.device_id = device_id;
 
 
         Employee.addEmp(employee, (err, employees) => {
