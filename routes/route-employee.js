@@ -4,5 +4,6 @@ const auth = require('../auth/controller-auth');
 
 router.put('/api/password-update',auth.authenticateToken,controllerEmployee.updatePassword);
 router.get('/api/employees/:id',controllerEmployee.getEmployee);
+router.put('/api/update',controllerEmployee.updateEmployee);
 
 module.exports = router;

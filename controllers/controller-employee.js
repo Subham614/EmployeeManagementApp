@@ -54,6 +54,40 @@ async function getEmployee(req,res,next){
 	}
 }
 
+
+async function updateEmployee(req,res,next){
+
+	let filter = {
+		empId : req.body.empId
+	}
+	let update = req.body;
+
+	try{
+		let updatedData = await Employee.findOneAndUpdate(filter,update,{new:true});
+
+		if(updatedData.empId)
+			res.json({
+				'error':false,
+				'data':updatedData
+			})
+		else{
+			res.json({
+				'error':true,
+				'message':'Employee details not updated'
+			})
+		}
+
+	}catch(err){
+		console.log(err);
+		res.json({
+			'error':true,
+			'message':'Employee details not updated'
+		})
+	}
+
+
+}
+
 module.exports = {
-	updatePassword,getEmployee
+	updatePassword,getEmployee,updateEmployee
 }
