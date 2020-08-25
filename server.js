@@ -14,7 +14,12 @@ Hardware=require('./model/Hardware');
 Designation=require('./model/Designation');
 Manager=require('./model/Manager');
 
-app.use(cors());
+app.use(cors({
+  "origin": "*",
+  "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+  "preflightContinue": false,
+  "optionsSuccessStatus": 204
+}));
 let Counter = require('./model/Counter');
 
 const app = express();
