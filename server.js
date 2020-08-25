@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const mongoose = require('mongoose');
 const upload=require('./services/file-upload');
 const singleUpload=upload.single('image');
@@ -13,6 +14,7 @@ Hardware=require('./model/Hardware');
 Designation=require('./model/Designation');
 Manager=require('./model/Manager');
 
+app.use(cors());
 let Counter = require('./model/Counter');
 
 const app = express();
