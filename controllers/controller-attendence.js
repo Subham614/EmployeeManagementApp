@@ -5,8 +5,8 @@ const moment = require('moment');
 
  function locationMeasure(lat,lon){
  	//base coordinates
-	const lat1 = 40.689202777778;
-	const lon1 = -74.042219444444;
+	const lat1 = 22.9867569;
+	const lon1 = 87.8549755;
 
 	let lat2 = lat;
 	let lon2 = lon;
