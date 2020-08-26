@@ -5,18 +5,28 @@ async function updatePassword(req,res,next){
 	try{
 
 
-		if(!req.body.empId || !req.body.password){
+		if(!req.body.empId || !req.body.password || !req.body.oldpassword){
 			return res.json({
 				'error':true,
 				'message':'please provide necessary details'
 			})
 		}
-		let user = await Employee.findOneAndUpdate({empId:req.body.empId},{password:req.body.password,isnewUser:false},{new:true});
-		if(user){
-			return res.json({
+
+		let findUser = await Employee.findOne({empId:req.body.empId});
+		if(findUser.password == req.body.oldpassword){
+			let user = await Employee.findOneAndUpdate({empId:req.body.empId},{password:req.body.password,isnewUser:false},{new:true});
+			if(user){
+				return res.json({
 					'error':false,
 					'message':'password updated',
 					'data':user
+				})
+			}
+
+		}else{
+			return res.json({
+				'error':true,
+				'message':'old password doesnot match'
 			})
 		}
 
