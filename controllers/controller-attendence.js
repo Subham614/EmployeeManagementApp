@@ -243,6 +243,19 @@ async function monthlyAttendence(req,res,next){
 async function checkOut(req,res,next){
 	try{
 
+			// get server time
+			let serverTime = new Date();
+			serverTime = serverTime.toLocaleString('en-US',{timeZone:"Asia/Kolkata"});
+			let currentServerTime = (new Date(serverTime)).toString()
+
+			// return res.json({
+		 	// 		serverTime:currentServerTime
+		 	// 	})
+		 	req.body.outTime = currentServerTime;
+
+
+
+
 		if(!req.body.empId){
 			return res.json({
 				'error':true,
@@ -281,13 +294,27 @@ async function checkOut(req,res,next){
 			// let currentTime = (todayTime[4]).split(':');
 			
 
-				update.outTime = req.body.outTime.split(' ').slice(0,5).join(' ');
-				let today = moment(update.outTime).format('LT');
-				let todayTime = today.split(':');
-				let currentTime = todayTime[0]
+				// update.outTime = req.body.outTime.split(' ').slice(0,5).join(' ');
+				// let today = moment(update.outTime).format('LT');
+				// let todayTime = today.split(':');
+				// let currentTime = todayTime[0]
+
+
+			let today = update.outTime.toString();
+			let todayTime = today.split(' ');
+			let currentDateTime = todayTime[4].split(':');
+			let currentTime = currentDateTime[0];
+
+
+			// return res.json({
+			// 	'error':true,
+			// 	'inTime':update.outTime.toString(),
+			// 	'today':today,
+			// 	'current time':currentTime
+			// })
 
 			// time = 6pm
-			if(currentTime[0] <= 17){
+			if(currentTime <= 17){
 				update.earlyOut=true;
 				// check if the early checkout reason is given
 				if(!req.body.earlyOutReason){
@@ -318,6 +345,8 @@ async function checkOut(req,res,next){
 			}
 			else{
 				let doc = await Attendence.findOneAndUpdate(filter,update,{new:true});
+				// console.log(doc.inTime.toString());
+				// console.log(doc.outTime.toString());
 				res.json({
 					'error':false,
 					'data': doc
