@@ -100,8 +100,8 @@ const moment = require('moment');
 				// let todayTime = today.split(':');
 				// let currentTime = todayTime[0]
 			// time = 10 am
-
-	 			let serverTime = (new Date()).split(' ').slice(0,5).join(' ');
+				let serverTime = new Date();
+	 			let serverTime = serverTime.split(' ').slice(0,5).join(' ');
 				let today = moment(serverTime).format('LT');
 				let todayTime = today.split(':');
 				let currentTime = todayTime[0]
