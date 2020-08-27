@@ -48,6 +48,9 @@ const moment = require('moment');
 			})
 		}
 
+		// get server time
+		 return new Date();
+
 
 
 		 // check whether the location is provided or not 
