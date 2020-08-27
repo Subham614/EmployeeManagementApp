@@ -40,10 +40,12 @@ const moment = require('moment');
 		 let serverTime = new Date();
 		 serverTime = serverTime.toLocaleString('en-US',{timeZone:"Asia/Kolkata"});
 		 let currentServerTime = (new Date(serverTime)).toString()
-		 return res.json({
-		 	serverTime:currentServerTime
-		 })
-		 // req.body.inTime = currentServerTime;
+		 // return res.json({
+		 // 	serverTime:currentServerTime
+		 // })
+
+		 // assign the current serverTime to checkIn time 
+		 req.body.inTime = currentServerTime;
 
 
 
@@ -102,17 +104,23 @@ const moment = require('moment');
 			});
 
 
-	 			newAttendence.inTime = req.body.inTime.split(' ').slice(0,5).join(' ');
-				let today = moment(newAttendence.inTime).format('LT');
-				let todayTime = today.split(':');
-				let currentTime = todayTime[0]
+	 		// 	newAttendence.inTime = req.body.inTime.split(' ').slice(0,5).join(' ');
+				// let today = moment(newAttendence.inTime).format('LT');
+				// let todayTime = today.split(':');
+				// let currentTime = todayTime[0]
 			// time = 10 am
 
+			let today = newAttendence.inTime.toString();
+			let todayTime = today.split(' ');
+			let currentDateTime = todayTime[4].split(':');
+			let currentTime = currentDateTime[0];
+
+			
 		
 
 			// return res.json({
 			// 	'error':true,
-			// 	'inTime':newAttendence.inTime,
+			// 	'inTime':newAttendence.inTime.toString(),
 			// 	'today':today,
 			// 	'current time':currentTime
 			// })
