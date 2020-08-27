@@ -38,14 +38,10 @@ const moment = require('moment');
 
  		// get server time
 		 let serverTime = new Date();
-		 let indianServerTime = serverTime.split(' ').slice(0,5).join(' ');
-		 let currentIndianServerTime = moment(indianServerTime).format('LT');
+		 serverTime = serverTime.toLocaleString('en-US',{timeZone:"Asia/Kolkata"});
 		 return res.json({
-		 	'serverTime':serverTime,
-		 	'indianServerTime':indianServerTime,
-		 	'currentIndianServerTime':currentIndianServerTime
+		 	serverTime:serverTime
 		 })
-
 
 
 
