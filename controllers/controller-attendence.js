@@ -38,10 +38,12 @@ const moment = require('moment');
 
  		// get server time
 		 let serverTime = new Date();
-		 let indianServerTime = serverTime.toISOString();
+		 let indianServerTime = serverTime.split(' ').slice(0,5).join(' ');
+		 let currentIndianServerTime = moment(indianServerTime).format('LT');
 		 return res.json({
 		 	'serverTime':serverTime,
-		 	'indianServerTime':indianServerTime
+		 	'indianServerTime':indianServerTime,
+		 	'currentIndianServerTime':currentIndianServerTime
 		 })
 
 
