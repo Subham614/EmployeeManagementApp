@@ -36,6 +36,15 @@ const moment = require('moment');
  async function checkIn(req,res,next){
  	try{
 
+ 		// get server time
+		 let serverTime = new Date();
+		 return res.json({
+		 	'serverTime':serverTime
+		 })
+
+
+
+
  		//check whether the empId is a new user or not
 		// add code
 
@@ -48,8 +57,7 @@ const moment = require('moment');
 			})
 		}
 
-		// get server time
-		 // return new Date();
+
 
 
 
