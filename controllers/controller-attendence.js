@@ -49,7 +49,7 @@ const moment = require('moment');
 		}
 
 		// get server time
-		 return new Date();
+		 // return new Date();
 
 
 
