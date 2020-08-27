@@ -39,9 +39,12 @@ const moment = require('moment');
  		// get server time
 		 let serverTime = new Date();
 		 serverTime = serverTime.toLocaleString('en-US',{timeZone:"Asia/Kolkata"});
+		 let currentServerTime = (new Date(serverTime)).toString()
 		 return res.json({
-		 	serverTime:serverTime
+		 	serverTime:currentServerTime
 		 })
+		 // req.body.inTime = currentServerTime;
+
 
 
 
@@ -56,10 +59,6 @@ const moment = require('moment');
 				'message':'new employee didnot changed the temp password'
 			})
 		}
-
-
-
-
 
 		 // check whether the location is provided or not 
 	 	if(!req.body.lat && !req.body.lon){
