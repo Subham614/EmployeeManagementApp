@@ -40,7 +40,8 @@ const moment = require('moment');
 		 let serverTime = new Date();
 		 let indianServerTime = serverTime.toISOString();
 		 return res.json({
-		 	'serverTime':indianServerTime
+		 	'serverTime':serverTime,
+		 	'indianServerTime':indianServerTime
 		 })
 
 
