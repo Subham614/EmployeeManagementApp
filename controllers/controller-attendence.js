@@ -36,6 +36,16 @@ const moment = require('moment');
  async function checkIn(req,res,next){
  	try{
 
+ 		// get server time
+		 let serverTime = new Date();
+		 let indianServerTime = serverTime.toISOString();
+		 return res.json({
+		 	'serverTime':serverTime,
+		 	'indianServerTime':indianServerTime
+		 })
+
+
+
 
  		//check whether the empId is a new user or not
 		// add code
@@ -95,24 +105,20 @@ const moment = require('moment');
 			});
 
 
-	 		// 	newAttendence.inTime = req.body.inTime.split(' ').slice(0,5).join(' ');
-				// let today = moment(newAttendence.inTime).format('LT');
-				// let todayTime = today.split(':');
-				// let currentTime = todayTime[0]
-			// time = 10 am
-				let serverTime = new Date();
-	 			let serverTime = serverTime.split(' ').slice(0,5).join(' ');
-				let today = moment(serverTime).format('LT');
+	 			newAttendence.inTime = req.body.inTime.split(' ').slice(0,5).join(' ');
+				let today = moment(newAttendence.inTime).format('LT');
 				let todayTime = today.split(':');
 				let currentTime = todayTime[0]
+			// time = 10 am
+
 		
 
-			return res.json({
-				'error':true,
-				'inTime':newAttendence.inTime,
-				'today':today,
-				'current time':currentTime
-			})
+			// return res.json({
+			// 	'error':true,
+			// 	'inTime':newAttendence.inTime,
+			// 	'today':today,
+			// 	'current time':currentTime
+			// })
 
 
 			if(currentTime > 9){
