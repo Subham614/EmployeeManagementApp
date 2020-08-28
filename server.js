@@ -87,12 +87,13 @@ app.use(cors());
 // Upload endpoint to send file to Firebase storage bucket
 app.post('/api/image-upload', uploader.single('image'), async (req, res, next) => {
     //console.log(req.body,req.file);
-    try {
+    try 
+    {
       if (!req.file) {
         res.status(400).send('Error, could not upload file');
         return;
       }
-  
+      let currentCounter = await Counter.findOneAndUpdate({value:'product_id'},{$inc:{sequence:1}},{new:true});
       // Create new blob in the bucket referencing the file
       const blob = bucket.file(req.file.originalname);
   
@@ -105,16 +106,63 @@ app.post('/api/image-upload', uploader.single('image'), async (req, res, next) =
   
       blobWriter.on('error', (err) => next(err));
       blobWriter.on('finish', () => {
+      let employee = req.body;
         // Assembling public URL for accessing the file via HTTP
         const publicUrl = `https://firebasestorage.googleapis.com/v0/b/${
           bucket.name
         }/o/${encodeURI(blob.name)}?alt=media`;
-  
+
+        employee.profile_pic=publicUrl;
+        console.log(employee);
+       
+        if(currentCounter){
+
+            let empId = `zreyas_${currentCounter.sequence}`;
+            let password = randomString.makeid();
+            //let device_id = `device_${currentCounter.sequence}`;
+    
+            employee.empId = empId;
+            employee.password = password;
+            //employee.device_id = device_id;
+    
+    
+            Employee.addEmp(employee, (err, employees) => {
+            if(err){
+                return res.json({
+                    'error':true,
+                    'message':'user registration not successfull'
+                });
+            }else if(employees){
+                sendMail(employees.email,employees.empId,employees.password, function(err,data){
+                    if(err)
+                    {
+                        return res.json({'message':'Internal Error!'});
+                    }else{
+                        return res.json({
+                            'error':false,
+                            'message':'email sent!!',
+                            data:employees
+                        });
+                    }
+                })
+            }
+            // res.json(employees);
+        });
+        }
+
+
+
+
+
+
+
+
+
         // Return the file name and its public URL
-        res
-          .status(200)
-          .send({ fileName: req.file.originalname, fileLocation: publicUrl });
-      });
+    //     res
+    //       .status(200)
+    //       .send({ fileName: req.file.originalname, fileLocation: publicUrl });
+    });
   
       // When there is no more data to be consumed from the stream
       blobWriter.end(req.file.buffer);
