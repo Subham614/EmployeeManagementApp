@@ -38,9 +38,6 @@ const uploader = multer({
     fileSize: 5 * 1024 * 1024, // limiting files size to 5 MB
   },
 });
-
-
-
 // const allowedOrigins = [
 //   'capacitor://localhost',
 //   'ionic://localhost',
@@ -65,27 +62,8 @@ const uploader = multer({
 // app.options('*', cors(corsOptions));
 
 app.use(cors());
-
-
-
-
-
-
-
-
-
-
-//connect to mongo
-//to run type nodemon only
-
-// mongoose.connect("mongodb://localhost/EmployeeManagement");
-// var db=mongoose.connection;
-
-
-// upload the image
-
-// Upload endpoint to send file to Firebase storage bucket
-app.post('/api/image-upload', uploader.single('image'), async (req, res, next) => {
+// Add Employee
+app.post('/api/employees', uploader.single('image'), async (req, res, next) => {
     //console.log(req.body,req.file);
     try 
     {
@@ -146,24 +124,10 @@ app.post('/api/image-upload', uploader.single('image'), async (req, res, next) =
                     }
                 })
             }
-            // res.json(employees);
+            
         });
         }
-
-
-
-
-
-
-
-
-
-        // Return the file name and its public URL
-    //     res
-    //       .status(200)
-    //       .send({ fileName: req.file.originalname, fileLocation: publicUrl });
     });
-  
       // When there is no more data to be consumed from the stream
       blobWriter.end(req.file.buffer);
     } catch (error) {
@@ -171,46 +135,6 @@ app.post('/api/image-upload', uploader.single('image'), async (req, res, next) =
       return;
     }
   });
-//add employess and sent mail
-app.post('/api/employees', async (req, res) => {
-    let employee = req.body;
-
-    let currentCounter = await Counter.findOneAndUpdate({value:'product_id'},{$inc:{sequence:1}},{new:true});
-    if(currentCounter){
-
-        let empId = `zreyas_${currentCounter.sequence}`;
-        let password = randomString.makeid();
-        //let device_id = `device_${currentCounter.sequence}`;
-
-        employee.empId = empId;
-        employee.password = password;
-        //employee.device_id = device_id;
-
-
-        Employee.addEmp(employee, (err, employees) => {
-        if(err){
-            return res.json({
-                'error':true,
-                'message':'user registration not successfull'
-            });
-        }else if(employees){
-            sendMail(employees.email,employees.empId,employees.password, function(err,data){
-                if(err)
-                {
-                    return res.json({'message':'Internal Error!'});
-                }else{
-                    return res.json({
-                        'error':false,
-                        'message':'email sent!!',
-                        data:employees
-                    });
-                }
-            })
-        }
-        // res.json(employees);
-    });
-    }
-});
 //get employees
 app.get('/api/employees',function(req,res){
     Employee.getEmp(function(err,employees){
@@ -224,7 +148,6 @@ app.get('/api/employees',function(req,res){
         res.json(employees);
     });
 });
-
 //add designations
 app.post('/api/designations', (req, res) => {
     var designation = req.body;
@@ -235,7 +158,6 @@ app.post('/api/designations', (req, res) => {
         res.json(designations);
     });
 });
-
 // display all designations
 app.get('/api/designations',function(req,res){
     Designation.getDesignation(function(err,designations){
@@ -245,7 +167,6 @@ app.get('/api/designations',function(req,res){
         res.json(designations);
     });
 });
-
 //add hardwares
 app.post('/api/hardwares', (req, res) => {
     var hardware = req.body;
@@ -256,7 +177,6 @@ app.post('/api/hardwares', (req, res) => {
         res.json(hardwares);
     });
 });
-
 //display all hardwares
 app.get('/api/hardwares',function(req,res){
     Hardware.getHardware(function(err,hardwares){
@@ -266,7 +186,6 @@ app.get('/api/hardwares',function(req,res){
         res.json(hardwares);
     });
 });
-
 //add managers
 app.post('/api/managers', (req, res) => {
     var manager = req.body;
@@ -277,7 +196,6 @@ app.post('/api/managers', (req, res) => {
         res.json(managers);
     });
 });
-
 //display all managers
 app.get('/api/managers',function(req,res){
     Manager.getManager(function(err,managers){
@@ -287,10 +205,10 @@ app.get('/api/managers',function(req,res){
         res.json(managers);
     });
 });
-
 app.get('/',function(req,res){
     res.send("hello");
 })
+
 
 app.use('/api',require('./routes/route-login'));
 app.use('/',require('./routes/route-employee'));
