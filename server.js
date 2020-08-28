@@ -39,6 +39,51 @@ const uploader = multer({
   },
 });
 
+
+
+// const allowedOrigins = [
+//   'capacitor://localhost',
+//   'ionic://localhost',
+//   'http://localhost',
+//   'http://localhost:8080',
+//   'http://localhost:8100',
+//   'http://localhost:4200'
+// ];
+
+// // Reflect the origin if it's in the allowed list or not defined (cURL, Postman, etc.)
+// const corsOptions = {
+//   origin: (origin, callback) => {
+//     if (allowedOrigins.includes(origin) || !origin) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error('Origin not allowed by CORS'));
+//     }
+//   }
+// }
+
+// // Enable preflight requests for all routes
+// app.options('*', cors(corsOptions));
+
+app.use(cors());
+
+
+
+
+
+
+
+
+
+
+//connect to mongo
+//to run type nodemon only
+
+// mongoose.connect("mongodb://localhost/EmployeeManagement");
+// var db=mongoose.connection;
+
+
+// upload the image
+
 // Upload endpoint to send file to Firebase storage bucket
 app.post('/api/image-upload', uploader.single('image'), async (req, res, next) => {
     //console.log(req.body,req.file);
@@ -78,43 +123,6 @@ app.post('/api/image-upload', uploader.single('image'), async (req, res, next) =
       return;
     }
   });
-
-// const allowedOrigins = [
-//   'capacitor://localhost',
-//   'ionic://localhost',
-//   'http://localhost',
-//   'http://localhost:8080',
-//   'http://localhost:8100',
-//   'http://localhost:4200'
-// ];
-
-// // Reflect the origin if it's in the allowed list or not defined (cURL, Postman, etc.)
-// const corsOptions = {
-//   origin: (origin, callback) => {
-//     if (allowedOrigins.includes(origin) || !origin) {
-//       callback(null, true);
-//     } else {
-//       callback(new Error('Origin not allowed by CORS'));
-//     }
-//   }
-// }
-
-// // Enable preflight requests for all routes
-// app.options('*', cors(corsOptions));
-
-app.use(cors());
-
-
-//connect to mongo
-//to run type nodemon only
-
-// mongoose.connect("mongodb://localhost/EmployeeManagement");
-// var db=mongoose.connection;
-
-
-// upload the image
-
-  
 //add employess and sent mail
 app.post('/api/employees', async (req, res) => {
     let employee = req.body;
@@ -153,11 +161,8 @@ app.post('/api/employees', async (req, res) => {
         }
         // res.json(employees);
     });
-
     }
-
 });
-
 //get employees
 app.get('/api/employees',function(req,res){
     Employee.getEmp(function(err,employees){
